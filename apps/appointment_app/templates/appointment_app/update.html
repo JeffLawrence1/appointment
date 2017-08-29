@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <a style="margin-left: 400px;" href="/appointment">Dashboard</a>&emsp;|&emsp;<a href="/logout">Logout</a>
+    <br> {% if messages %} {%for message in messages %} {% if message.tags == "error" %}
+    <p style="color: red">{{message}} </p> {% endif %}{% if message.tags == "success" %}
+    <p style="color: green">{{message}} </p> {% endif %} {% endfor %} {% endif %}
+    <form action="/appointment/update/{{tasks.id}}" method="post"> {% csrf_token %}
+        <h4>Tasks:</h4><input type="text" name="tasks" placeholder="{{tasks.tasks}}"><br>
+        <h4>Status:</h4><select name="status">
+            <option value="done">Done</option>
+            <option value="pending">Pending</option>
+            <option value="missed">Missed</option>
+        </select>
+        <br>
+        <h4>Date:</h4><input type="date" name="date" placeholder="{{tasks.date}}"><br>
+        <h4>Time:</h4><input type="time" name="time" placeholder="{{tasks.time}}"><br>
+
+
+        <input style="margin-left: 125px;" type="submit" value="Update">
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        {% csrf_token %}
+        <h1 style="display: inline-block;">Hello, {{request.session.user_name}}!</h1>
+        <a style="margin-left: 400px;" href="/logout">Logout</a>
+        <br>
+        <h3> Here are your appointments for today, {{time}}:</h3>
+
+    </div>
+    {% csrf_token %}
+    <table style="width: 60%; border: 2px solid black;">
+        <tr>
+            <th>Tasks</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{task.tasks}}</td>
+            <td>{{task.time}}</td>
+            <td>{{task.status}}</td>
+            <td><a style="margin-left: 150px;" href="/appointment/updatep/{{task.id}}">Edit</a>&emsp;<a href="/appointment/remove/{{task.id}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <h3>Your other appointments</h3>
+    <table style="width: 30%; border: 2px solid black;">
+        <tr>
+            <th>Tasks</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for far in far %}
+        <tr>
+            <td>{{far.tasks}}</td>
+            <td>{{far.date}}</td>
+            <td>{{far.time}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <br>
+    <h3>Add Appointment</h3>
+    {% if messages %} {%for message in messages %} {% if message.tags == "error" %}
+    <p style="color: red">{{message}} </p> {% endif %}{% if message.tags == "success" %}
+    <p style="color: green">{{message}} </p> {% endif %} {% endfor %} {% endif %}
+    <form action="/appointment/add" method="post">
+        {% csrf_token %}
+        <input type="date" name="date" placeholder="Date:"><br>
+        <input type="time" name="time" placeholder="Time:"><br>
+        <input type="text" name="tasks" placeholder="Tasks:"><br>
+
+        <input style="margin-left: 125px;" type="submit" value="Add">
+    </form>
+</body>
+
+</html>
